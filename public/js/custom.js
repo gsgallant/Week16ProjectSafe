@@ -113,7 +113,80 @@ $(document).ready(function() {
         $("#chartdiv9").hide();
         $("#chartdiv12").hide();
 
+
     });
+
+        $("#login").click(function() {
+            userName = $('.userinput').val();
+
+            $.post(currentURL + "/register", {
+                userName: userName
+            }).done(function(data) {
+                if (data == true) {
+                    Materialize.toast('Welcome Back!', 3000)
+                    $("#login").hide();
+                    $("#register").hide();
+                    $("#add").show();
+                    $("#logout").show();
+                    $(".dropdown-button").show();
+
+
+                    $("#chartdiv3").show();
+                    $("#chartdiv6").show();
+                    $("#chartdiv9").show();
+                    $("#chartdiv12").show();
+
+
+
+                } else {
+                    Materialize.toast('User Name Not Recognized!', 4000)
+                    Materialize.toast('Try Again or Register!', 4000)
+                }
+            })
+         
+         userDataRetrieve(requestedTimeFrame,userName);
+         
+         }); //end click
+
+        
+        //======================================================================
+        
+
+
+        //=========================================================================
+        $("#register").click(function() {
+            userName = $(".userinput").val();
+
+            $.post(currentURL + "/register", {
+                userName : userName
+            }).done(function(data) {
+                if (data == false) {
+                    
+                    $("#login").hide();
+                    $("#register").hide();
+                    $("#add").show();
+                    $("#view").show();
+                    $("#logout").show();
+                    
+                    Materialize.toast('Thanks for Joining!', 3000)
+                    
+                    console.log(userName);
+                    console.log(requestedTimeFrame);
+                    
+                    $("#chartdiv3").show();
+                    $("#chartdiv6").show();
+                    $("#chartdiv9").show();
+                    $("#chartdiv12").show();
+                    
+                    userDataRetrieve(requestedTimeFrame,userName);
+                    
+                    // $('#modal1').openModal();
+                    
+                } else {
+                    // TRUE
+                    Materialize.toast('That User Name is NOT AVAILABLE!', 3000)
+                }
+            });
 
     //CLICK FUNCTION FOR NEW MEAL INFO
     $("#addinfo").click(function() {
@@ -131,8 +204,41 @@ $(document).ready(function() {
 
         }
 
+        $(".modal-close").click(function() {
+            Materialize.toast('Thanks!', 3000)
+        });
+        $("#logout").click(function() {
+            userName="";
+            data = "";
+            newInfo= "";
+            $(".userinput").val('');
+            $("#add").hide();
+            $("#logout").hide();
+            $(".dropdown-button").hide();
+            $("#chartdiv3").hide();
+            $("#chartdiv6").hide();
+            $("#chartdiv9").hide();
+            $("#chartdiv12").hide();
+            $("#login").show();
+            $("#register").show();
+        });
+
+            $("#dropdown2").click(function() {
+           
+             var value = $(this).val();
+             console.log(value);
+
+
+
 
         $.post(currentURL + "/add", newInfo, function(data) {
+
+        //CLICK FUNCTION FOR NEW MEAL INFO
+        $("#addinfo").click(function() {
+            $('#modal1').closeModal();
+            
+            var newInfo = {
+
 
             clearForm();
 
